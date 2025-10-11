@@ -27,11 +27,11 @@ const Hero = () => {
 
                 <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
 
-                    {/* <a href="#">
+                    <a href="#">
 
                        <img src="/logo.svg" alt="logo" className='h-11 w-auto' />
 
-                    </a> */}
+                    </a>
 
 
                     <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
@@ -42,7 +42,7 @@ const Hero = () => {
 
                         <a href="#testimonials" className="hover:text-green-600 transition">Testimonials</a>
 
-                        <a href="#cta" className="hover:text-green-600 transition">Contact</a>
+                        <a href="#contact" className="hover:text-green-600 transition">Contact</a>
 
                     </div>
 
@@ -100,14 +100,14 @@ const Hero = () => {
 
                 {/* Hero Section */}
 
-                <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
+                <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black mt-12">
 
                     <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-green-300 blur-[100px] opacity-30"></div>
 
 
                     {/* Avatars + Stars */}
 
-                    <div className="flex items-center mt-24">
+                    {/* <div className="flex items-center mt-24">
 
                         <div className="flex -space-x-3 pr-3">
 
@@ -144,7 +144,7 @@ const Hero = () => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                     {/* Headline + CTA */}
