@@ -6,12 +6,17 @@ import {
   Briefcase,
   ChevronLeft,
   ChevronRight,
+  DownloadIcon,
+  EyeIcon,
+  EyeOffIcon,
   FileText,
   FolderIcon,
   GraduationCap,
+  Share2Icon,
   Sparkle,
   User,
 } from "lucide-react";
+
 import PersonalInfoForm from "../Components/PersonalInfoForm";
 import ResumePreview from "../Components/ResumePreview";
 import TemplateSelector from "../Components/TemplateSelector";
@@ -20,6 +25,7 @@ import Summary from "../Components/Summary";
 import ExperienceForm from "../Components/ExperienceForm";
 import EducationForm from "../Components/EducationForm";
 import ProjectForm from "../Components/ProjectForm";
+import SkillsForm from "../Components/SkillsForm";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -38,14 +44,6 @@ const ResumeBuilder = () => {
     public: false,
   });
 
-  const loadExistingResume = async () => {
-    const resume = dummyResumeData.find((resume) => resume._id == resumeId);
-    if (resume) {
-      setResumeData(resume);
-      document.title = resume.title;
-    }
-  };
-
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [removeBackground, setRemoveBackground] = useState(false);
 
@@ -60,18 +58,47 @@ const ResumeBuilder = () => {
 
   const activeSection = sections[activeSectionIndex];
 
+  // Load existing resume data
   useEffect(() => {
-    loadExistingResume();
-  }, []);
+    const resume = dummyResumeData.find((r) => r._id == resumeId);
+    if (resume) {
+      setResumeData(resume);
+      document.title = resume.title;
+    }
+  }, [resumeId]);
+
+  // Toggle public/private visibility
+  const changeResumeVisibility = () => {
+    setResumeData((prev) => ({ ...prev, public: !prev.public }));
+  };
+
+  // Share resume link
+  const handleShare = () => {
+    const frontendUrl = window.location.href.split("/app/")[0];
+    const resumeUrl = frontendUrl + "/view/" + resumeId;
+
+    if (navigator.share) {
+      navigator.share({
+        url: resumeUrl,
+        text: "My Resume",
+      });
+    } else {
+      alert("Share not supported on this browser.");
+    }
+  };
+
+  // Download (print)
+  const downloadResume = () => {
+    window.print();
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 pb-8">
       <div className="grid lg:grid-cols-12 gap-8">
-        {/* Left panel - form */}
+        {/* Left Panel - Form */}
         <div className="lg:col-span-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
-          {/* ========================== */}
-          {/* Progress Bar (Full Width) */}
-          {/* ========================== */}
+
+          {/* Progress Bar */}
           <div className="relative w-full mb-6 mt-2">
             <hr className="w-full h-1 bg-gray-200 border-none rounded-full" />
             <div
@@ -82,12 +109,10 @@ const ResumeBuilder = () => {
             ></div>
           </div>
 
-          {/* ========================== */}
-          {/* Section Navigation (Full Width) */}
-          {/* ========================== */}
+          {/* Section Navigation */}
           <div className="flex justify-between items-center mb-6 border-b border-gray-300 pb-3 w-full">
             <div className="text-sm font-semibold text-gray-600">
-              <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
+              <div className="flex justify-between items-center mb-4 py-1">
                 <TemplateSelector
                   selectedTemplate={resumeData.template}
                   onChange={(template) =>
@@ -106,15 +131,12 @@ const ResumeBuilder = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              {activeSectionIndex !== 0 && (
+              {activeSectionIndex > 0 && (
                 <button
                   onClick={() =>
-                    setActiveSectionIndex((prevIndex) =>
-                      Math.max(prevIndex - 1, 0)
-                    )
+                    setActiveSectionIndex((prev) => Math.max(prev - 1, 0))
                   }
                   className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all"
-                  disabled={activeSectionIndex === 0}
                 >
                   <ChevronLeft className="size-4" /> Previous
                 </button>
@@ -122,8 +144,8 @@ const ResumeBuilder = () => {
 
               <button
                 onClick={() =>
-                  setActiveSectionIndex((prevIndex) =>
-                    Math.min(prevIndex + 1, sections.length - 1)
+                  setActiveSectionIndex((prev) =>
+                    Math.min(prev + 1, sections.length - 1)
                   )
                 }
                 className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all ${
@@ -131,13 +153,12 @@ const ResumeBuilder = () => {
                 }`}
                 disabled={activeSectionIndex === sections.length - 1}
               >
-                Next
-                <ChevronRight className="size-4" />
+                Next <ChevronRight className="size-4" />
               </button>
             </div>
           </div>
 
-          {/* Form content */}
+          {/* Form Content */}
           <div className="space-y-6">
             {activeSection.id === "personal" && (
               <PersonalInfoForm
@@ -159,7 +180,6 @@ const ResumeBuilder = () => {
                     professional_summary: data,
                   }))
                 }
-                setResumeData={setResumeData}
               />
             )}
 
@@ -181,7 +201,7 @@ const ResumeBuilder = () => {
               />
             )}
 
-            {activeSection?.id === "projects" && (
+            {activeSection.id === "projects" && (
               <ProjectForm
                 data={resumeData.project || []}
                 onChange={(data) =>
@@ -190,15 +210,65 @@ const ResumeBuilder = () => {
               />
             )}
 
+            {activeSection.id === "skills" && (
+              <SkillsForm
+                data={resumeData.skills || []}
+                onChange={(data) =>
+                  setResumeData((prev) => ({ ...prev, skills: data }))
+                }
+              />
+            )}
           </div>
+
+          <button className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm">
+            Save Changes
+          </button>
         </div>
 
-        {/* Right panel - preview */}
+        {/* Right Panel - Preview */}
         <div className="lg:col-span-6 max-lg:mt-8 flex justify-center items-start">
           <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+
+            <div className="relative w-full m-10">
+              <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
+                {resumeData.public && (
+                  <button
+                    onClick={handleShare}
+                    className="bg-gradient-to-br from-blue-100 to-blue-200 ring-blue-300 text-purple-600 ring hover:ring-blue-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+                  >
+                    <Share2Icon className="size-4" /> Share
+                  </button>
+                )}
+
+                <button
+                  onClick={changeResumeVisibility}
+                  className="bg-gradient-to-br from-purple-100 to-purple-200 ring-purple-300 text-purple-600 ring hover:ring-purple-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+                >
+                  {resumeData.public ? (
+                    <>
+                      <EyeIcon className="size-4" /> Public
+                    </>
+                  ) : (
+                    <>
+                      <EyeOffIcon className="size-4" /> Private
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={downloadResume}
+                  className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+                >
+                  <DownloadIcon className="size-4" /> Download
+                </button>
+              </div>
+            </div>
             <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">
               Resume Preview
             </h2>
+
+            
+
             <div className="overflow-y-auto max-h-[85vh] rounded-lg border border-gray-100">
               <ResumePreview
                 data={resumeData}
