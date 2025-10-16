@@ -4,11 +4,11 @@ import bcrypt from 'bcrypt'
 const userSchema = new mongoose.Schema({
     name:{type:String, required:true},
     email:{type:String, required:true, unique:true},
-    passowrd:{type:String, required:true},
+    password:{type:String, required:true},
 },{timestamps:true})
 
-userSchema.methods.comparePassword = function(passowrd){
-    return bcrypt.compareSync(passowrd, this.passowrd)
+userSchema.methods.comparePassword = function(password){
+    return bcrypt.compareSync(password, this.password)
 }
 
 const User = mongoose.model("User", userSchema)

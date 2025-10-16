@@ -1,14 +1,13 @@
-import {User} from '../models/userModel.js'
+import User from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 import jwt  from 'jsonwebtoken'
-import { use } from 'react'
+import Resume from '../models/resume.js'
 
 const generateToken = (userId)=>{
     const token = jwt.sign({userId},process.env.JWT_SECRET, {expiresIn:'7d'} )
     return token
 
 }
-
 
 // controller for user registeration
 // POST:/api/users/register
@@ -103,5 +102,22 @@ export const getUserById = async (req, res)=>{
         
     }
 
+}
+
+// controller for getting user resumes
+// et : /api/users/resumes
+
+export const getUserResumes = async ()=>{
+    try {
+        const userId = req.userId;
+
+        // return user resumes
+        const resumes = await Resume.find({userId})
+        return res.status(200).json({resumes})
+        
+    } catch (error) {
+        return res.status(400).json({message:error.message})
+        
+    }
 }
 
