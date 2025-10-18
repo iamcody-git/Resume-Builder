@@ -107,7 +107,7 @@ export const getUserById = async (req, res)=>{
 // controller for getting user resumes
 // et : /api/users/resumes
 
-export const getUserResumes = async ()=>{
+export const getUserResumes = async (req,res)=>{
     try {
         const userId = req.userId;
 

@@ -83,7 +83,7 @@ export const getPublicResumeById = async () => {
 };
 
 // controller for updating a resume
-// put: /api/resumes/upadte
+// put: /api/resumes/update
 
 export const updateResume = async () => {
   try {
@@ -91,7 +91,7 @@ export const updateResume = async () => {
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    let resumeDataCopy = JSON.parse(resumeData);
+    let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
 
     if (image) {
 
