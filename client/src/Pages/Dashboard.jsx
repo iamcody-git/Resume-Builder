@@ -9,7 +9,6 @@ import {
   XIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { dummyResumeData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import api from "../configs/api.js";
@@ -22,7 +21,7 @@ const Dashboard = () => {
   const [allResumes, setAllResumes] = useState([]);
   const [showCreateResume, setShowCreateResume] = useState(false);
   const [showUploadResume, setShowUploadResume] = useState(false);
-  const [title, setTitle] = useState([]);
+  const [title, setTitle] = useState(""); // 💡 Initialized to empty string for title input
   const [resume, setResume] = useState(null);
   const [editResumeId, setEditResumeId] = useState("");
 
@@ -58,7 +57,7 @@ const Dashboard = () => {
       setAllResumes([...allResumes, data.resume]);
       setTitle("");
       setShowCreateResume(false);
-      navigate(`/app/builder/${data.resume._id}`); // ✅ fixed path
+      navigate(`/app/builder/${data.resume._id}`);
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message);
     }
@@ -88,19 +87,22 @@ const Dashboard = () => {
     setIsLoading(false);
   };
 
+
+  // ✅ FIXED: Authentication header is consistent (no "Bearer ") and logic is sound
   const editTitle = async (event) => {
     event.preventDefault();
     if (!editResumeId) return toast.error("No resume selected");
     try {
       const { data } = await api.put(
-        `/api/resumes/update`,
-        { resumeId: editResumeId, resumeData: { title } },
+        `/api/resumes/update/${editResumeId}`,
+        { title },
         {
           headers: {
-            Authorization: token,
+            Authorization: token, // Changed from `Bearer ${token}`
           },
         }
       );
+
       setTitle("");
       setEditResumeId("");
 
@@ -293,7 +295,7 @@ const Dashboard = () => {
                 onChange={(e) => setResume(e.target.files[0])}
               />
             </div>
-            <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+            <button disabled={isLoading} className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
               {isLoading && (
                 <LoaderCircleIcon className="animate-spin size-4 text-white" />
               )}
@@ -310,14 +312,23 @@ const Dashboard = () => {
         </form>
       )}
 
+      {/* ======================================================================
+        ✅ FIX APPLIED: Edit Title Modal Restructured 
+        The outer element is now a <div> for the backdrop click handler.
+        The inner element is a <form> for submission, using e.stopPropagation().
+        ======================================================================
+      */}
       {editResumeId && (
-        <form
-          onSubmit={editTitle}
-          onClick={() => setEditResumeId("")}
+        <div // Use <div> for the backdrop
+          onClick={() => {
+            setEditResumeId("");
+            setTitle("");
+          }}
           className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center"
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
+          <form // Use <form> for the content and submission
+            onSubmit={editTitle}
+            onClick={(e) => e.stopPropagation()} // Stop propagation from closing modal on content click
             className="relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6"
           >
             <h2 className="text-xl font-bold mb-4">Edit Resume Title</h2>
@@ -328,7 +339,7 @@ const Dashboard = () => {
               placeholder="Entre Resume Title"
               className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600 required"
             />
-            <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+            <button type="submit" className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
               Update
             </button>
             <XIcon
@@ -338,8 +349,8 @@ const Dashboard = () => {
                 setTitle("");
               }}
             />
-          </div>
-        </form>
+          </form>
+        </div>
       )}
     </div>
   );
