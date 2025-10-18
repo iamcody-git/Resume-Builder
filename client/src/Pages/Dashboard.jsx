@@ -87,8 +87,6 @@ const Dashboard = () => {
     setIsLoading(false);
   };
 
-
-  // ✅ FIXED: Authentication header is consistent (no "Bearer ") and logic is sound
   const editTitle = async (event) => {
     event.preventDefault();
     if (!editResumeId) return toast.error("No resume selected");
@@ -98,7 +96,7 @@ const Dashboard = () => {
         { title },
         {
           headers: {
-            Authorization: token, // Changed from `Bearer ${token}`
+            Authorization: token,
           },
         }
       );
