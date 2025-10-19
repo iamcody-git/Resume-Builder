@@ -82,26 +82,28 @@ const ResumeBuilder = () => {
   }, []);
 
   // Toggle public/private visibility
- const changeResumeVisibility = async () => {
-  try {
-    const formData = new FormData();
-    formData.append(
-      "resumeData",
-      JSON.stringify({ public: !resumeData.public })
-    );
+  const changeResumeVisibility = async () => {
+    try {
+      const formData = new FormData();
+      formData.append(
+        "resumeData",
+        JSON.stringify({ public: !resumeData.public })
+      );
 
-    const { data } = await api.put(`/api/resumes/update/${resumeId}`, formData, {
-      headers: { Authorization: token },
-    });
+      const { data } = await api.put(
+        `/api/resumes/update/${resumeId}`,
+        formData,
+        {
+          headers: { Authorization: token },
+        }
+      );
 
-    setResumeData((prev) => ({ ...prev, public: !prev.public }));
-  } catch (error) {
-    console.error("Error saving resume: ", error);
-    toast.error("Failed to change visibility");
-  }
-};
-;
-
+      setResumeData((prev) => ({ ...prev, public: !prev.public }));
+    } catch (error) {
+      console.error("Error saving resume: ", error);
+      toast.error("Failed to change visibility");
+    }
+  };
   // Share resume link
   const handleShare = () => {
     const frontendUrl = window.location.href.split("/app/")[0];
@@ -143,7 +145,7 @@ const ResumeBuilder = () => {
         formData,
         {
           headers: {
-            Authorization: token, // ✅ important
+            Authorization: token, 
           },
         }
       );
@@ -309,56 +311,61 @@ const ResumeBuilder = () => {
           </button>
         </div>
 
+
         {/* Right Panel - Preview */}
-        <div className="lg:col-span-6 max-lg:mt-8 flex justify-center items-start">
-          <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-            <div className="relative w-full m-10">
-              <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
-                {resumeData.public && (
-                  <button
-                    onClick={handleShare}
-                    className="bg-gradient-to-br from-blue-100 to-blue-200 ring-blue-300 text-purple-600 ring hover:ring-blue-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
-                  >
-                    <Share2Icon className="size-4" /> Share
-                  </button>
-                )}
+<div className="lg:col-span-6 max-lg:mt-8 flex justify-center items-start">
+  <div className="w-full max-w-[210mm] bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    
+    {/* Action Buttons */}
+    <div className="flex justify-end gap-2 mb-4 sticky top-0 bg-white z-10">
+      {resumeData.public && (
+        <button
+          onClick={handleShare}
+          className="bg-gradient-to-br from-blue-100 to-blue-200 ring-blue-300 text-purple-600 ring hover:ring-blue-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+        >
+          <Share2Icon className="size-4" /> Share
+        </button>
+      )}
 
-                <button
-                  onClick={changeResumeVisibility}
-                  className="bg-gradient-to-br from-purple-100 to-purple-200 ring-purple-300 text-purple-600 ring hover:ring-purple-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
-                >
-                  {resumeData.public ? (
-                    <>
-                      <EyeIcon className="size-4" /> Public
-                    </>
-                  ) : (
-                    <>
-                      <EyeOffIcon className="size-4" /> Private
-                    </>
-                  )}
-                </button>
+      <button
+        onClick={changeResumeVisibility}
+        className="bg-gradient-to-br from-purple-100 to-purple-200 ring-purple-300 text-purple-600 ring hover:ring-purple-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+      >
+        {resumeData.public ? (
+          <>
+            <EyeIcon className="size-4" /> Public
+          </>
+        ) : (
+          <>
+            <EyeOffIcon className="size-4" /> Private
+          </>
+        )}
+      </button>
 
-                <button
-                  onClick={downloadResume}
-                  className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
-                >
-                  <DownloadIcon className="size-4" /> Download
-                </button>
-              </div>
-            </div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">
-              Resume Preview
-            </h2>
+      <button
+        onClick={downloadResume}
+        className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-2 py-1 text-sm flex items-center gap-1"
+      >
+        <DownloadIcon className="size-4" /> Download
+      </button>
+    </div>
 
-            <div className="rounded-lg border border-gray-100">
-              <ResumePreview
-                data={resumeData}
-                template={resumeData.template}
-                accentColor={resumeData.accent_color}
-              />
-            </div>
-          </div>
-        </div>
+    {/* Preview Heading */}
+    <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">
+      Resume Preview
+    </h2>
+
+    {/* Resume Content */}
+    <div className="w-full bg-white mx-auto shadow-none">
+      <ResumePreview
+        data={resumeData}
+        template={resumeData.template}
+        accentColor={resumeData.accent_color}
+      />
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   );
