@@ -43,13 +43,14 @@ export const enhanceJobDescription = async (req, res) => {
     if (!userContent) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+
     const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
           role: "system",
           content:
-            "You are an expert in resume writing. Your task is to enhance the job description for a resume. The job description should be 1-2 sentences also highlights key responsibilities and achievements.Use action verbs and quantifiable results where possible. Make it ATS-friendly and only return text no options or anything else.",
+            "You are an expert in resume writing. Your task is to enhance the job description for a resume. The job description should be 1-2 sentences that highlight key responsibilities and achievements. Use action verbs and quantifiable results where possible. Make it ATS-friendly and only return text, no options or explanations.",
         },
         {
           role: "user",
@@ -58,12 +59,15 @@ export const enhanceJobDescription = async (req, res) => {
       ],
     });
 
+    // ✅ extract and return the text as enhanceContent
     const enhanceContent = response.choices[0].message.content;
-    return res.status(200).json({ enhanceContent });
+
+    return res.status(200).json({ enhanceContent }); // ✅ match frontend expectation
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
+
 
 // controller for uploading a resume to the database
 // post: /api/ai/upload-resume

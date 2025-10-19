@@ -67,20 +67,17 @@ export const getResumeById = async (req, res) => {
 // get resume by id public
 // get: /api/resumes/public
 
-export const getPublicResumeById = async () => {
+export const getPublicResumeById = async (req, res) => {
   try {
     const { resumeId } = req.params;
     const resume = await Resume.findOne({ public: true, _id: resumeId });
-
-    if (!resume) {
-      return res.status(404).json({ message: "Resume not found" });
-    }
-
-    return res.status(400).json({ resume });
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+    return res.status(200).json({ resume });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
+
 
 
 // controller for updating a resume
