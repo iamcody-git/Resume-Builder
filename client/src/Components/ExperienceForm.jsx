@@ -30,25 +30,26 @@ const ExperienceForm = ({ data, onChange }) => {
     onChange(updated)
   }
 
- const generateDescription = async (index) => {
-  setGeneratingIndex(index)
-  const experience = data[index]
-  const prompt = `Enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}.`
+const generateDescription = async (index) => {
+  setGeneratingIndex(index);
+  const experience = data[index];
+  const prompt = `Enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}.`;
 
   try {
     const { data: response } = await api.post(
       '/api/ai/enhance-job-desc',
       { userContent: prompt },
-      { headers: { Authorization:token }  }
-    )
+      { headers: { Authorization: token } }
+    );
 
-    updateExperience(index, 'description', response.enhancedContent) // ✅ use response not data
+    updateExperience(index, 'description', response.enhanceContent); // ✅ fixed key name
   } catch (error) {
-    toast.error(error.response?.data?.message || error.message)
+    toast.error(error.response?.data?.message || error.message);
   } finally {
-    setGeneratingIndex(-1)
+    setGeneratingIndex(-1);
   }
-}
+};
+
 
 
 
