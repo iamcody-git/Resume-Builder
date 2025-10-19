@@ -28,7 +28,7 @@ const Features = () => {
 
                             <div className="space-y-2">
 
-                                <h3 className="text-base font-semibold text-slate-700">Real-Time Analytics</h3>
+                                <h3 className="text-base font-semibold text-slate-700">Creative and Professional Resume Templates</h3>
 
                                 <p className="text-sm text-slate-600 max-w-xs">Get instant insights into your finances with live dashboards.</p>
 
@@ -46,7 +46,7 @@ const Features = () => {
 
                             <div className="space-y-2">
 
-                                <h3 className="text-base font-semibold text-slate-700">Bank-Grade Security</h3>
+                                <h3 className="text-base font-semibold text-slate-700">Edit Your Resume in Real Time</h3>
 
                                 <p className="text-sm text-slate-600 max-w-xs">End-to-end encryption, 2FA, compliance with GDPR standards.</p>
 
@@ -64,7 +64,7 @@ const Features = () => {
 
                             <div className="space-y-2">
 
-                                <h3 className="text-base font-semibold text-slate-700">Customizable Reports</h3>
+                                <h3 className="text-base font-semibold text-slate-700">ATS-Friendly</h3>
 
                                 <p className="text-sm text-slate-600 max-w-xs">Export professional, audit-ready financial reports for tax or internal review.</p>
 
