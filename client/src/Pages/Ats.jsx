@@ -41,8 +41,8 @@ const ATS = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md">
-      <h1 className="text-2xl font-semibold mb-4">📄 AI Resume Analyzer</h1>
+    <div className="max-w-2xl mx-auto p-6 mt-8 bg-white rounded-2xl shadow-md">
+      <h1 className="text-4xl font-semibold mb-4 text-green-600 tracking-wider">📄 AI Resume Analyzer</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="file"
@@ -52,7 +52,7 @@ const ATS = () => {
         />
         <input
           type="text"
-          placeholder="🎯 Target Job Role (optional)"
+          placeholder="Target Job Role (optional)"
           value={jobRole}
           onChange={(e) => setJobRole(e.target.value)}
           className="block w-full border p-2 rounded"
@@ -60,9 +60,9 @@ const ATS = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
         >
-          {loading ? "Analyzing..." : "🚀 Analyze Resume"}
+          {loading ? "Analyzing..." : "Analyze Resume"}
         </button>
       </form>
 

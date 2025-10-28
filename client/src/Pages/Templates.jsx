@@ -6,33 +6,34 @@ const Templates = () => {
 
   const templates = [
     {
-      id: "classic-1",
-      name: "Classic Resume 1",
+      id: "classic",
+      name: "Classic Resume",
       image:
         "https://i0.wp.com/graphicyard.com/wp-content/uploads/2019/08/Classic-Print-Resume-Template-4.jpg?fit=1800%2C1200&ssl=1",
     },
     {
-      id: "classic-2",
-      name: "Classic Resume 2",
+      id: "minimal-image",
+      name: "Minimal-image Resume",
       image:
         "https://marketplace.canva.com/EAFRuCp3DcY/3/0/1131w/canva-black-white-minimalist-cv-resume-fbJ3nW9XufE.jpg",
     },
     {
-      id: "classic-3",
-      name: "Classic Resume 3",
+      id: "modern",
+      name: "Modern Resume",
       image:
         "https://marketplace.canva.com/EAGmJ13p8zE/1/0/1131w/canva-black-and-white-minimalist-professional-resume-a4-X9UHTVTOsqQ.jpg",
     },
     {
-      id: "classic-4",
-      name: "Classic Resume 4",
+      id: "minimal",
+      name: "Minimal Resume",
       image:
         "https://cdn.prod.website-files.com/5e9b599e716f9d94b6c84f43/606f824d3206d754fae4ba04_basic-resume-template-format.png",
     },
   ];
 
   const handleSelect = (templateId) => {
-    navigate(`/builder/${templateId}`);
+    // Redirect to app and pass selected template ID
+    navigate("/app", { state: { selectedTemplate: templateId } });
   };
 
   return (

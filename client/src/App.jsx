@@ -11,6 +11,7 @@ import { login, setLoading } from './app/features/authSlice.js'
 import { useEffect } from 'react'
 import {Toaster} from 'react-hot-toast'
 import Templates from './Pages/Templates.jsx'
+import ATS from './Pages/Ats.jsx'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ const App = () => {
   <Route path='app' element={<Layout />}>
     <Route index element={<Dashboard />} />
     <Route path='templates' element={<Templates />} />   {/* ✅ fixed here */}
+    <Route path='ats' element={<ATS />} /> 
     <Route path='builder/:resumeId' element={<ResumeBuilder />} />
   </Route>
 
