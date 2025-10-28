@@ -10,6 +10,7 @@ import api from './configs/api.js'
 import { login, setLoading } from './app/features/authSlice.js'
 import { useEffect } from 'react'
 import {Toaster} from 'react-hot-toast'
+import Templates from './Pages/Templates.jsx'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -41,16 +42,17 @@ const App = () => {
     <>
     <Toaster />
       <Routes>
-        <Route path='/' element={<Home/>} />
+  <Route path='/' element={<Home/>} />
 
-        <Route path='app' element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path='builder/:resumeId' index element={<ResumeBuilder />} />
-        </Route>
+  <Route path='app' element={<Layout />}>
+    <Route index element={<Dashboard />} />
+    <Route path='templates' element={<Templates />} />   {/* ✅ fixed here */}
+    <Route path='builder/:resumeId' element={<ResumeBuilder />} />
+  </Route>
 
-        <Route path='view/:resumeId' element={<Preview/>} />
-        
-      </Routes>
+  <Route path='view/:resumeId' element={<Preview/>} />
+</Routes>
+
     </>
   )
 }
