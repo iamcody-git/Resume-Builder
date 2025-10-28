@@ -48,7 +48,7 @@ const Hero = () => {
                         <a href="#testimonials" className="hover:text-green-600 transition">Testimonials</a>
 
                         <Link to='/app/templates' className="hover:text-green-600 transition">Templates</Link>
-                        <a href="#ats-checker" className="hover:text-green-600 transition">ATS Checker</a>
+                        <Link to="app/ats" className="hover:text-green-600 transition">ATS Checker</Link>
 
                     </div>
 
