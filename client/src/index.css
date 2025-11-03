@@ -22,3 +22,62 @@
 
 
 
+
+/* Print styles to ensure the resume downloads with correct formatting */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  html,
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: white !important;
+  }
+
+  /* Hide all UI elements */
+  body * {
+    visibility: hidden;
+  }
+
+  #resume-print-root,
+  #resume-print-root * {
+    visibility: visible;
+  }
+
+  /* Hide buttons, icons, and placeholders */
+  #resume-print-root .no-print,
+  button,
+  svg,
+  .placeholder-icon {
+    display: none !important;
+  }
+
+  #resume-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    min-height: 297mm;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible;
+  }
+
+  /* Prevent breaking sections */
+  .resume-section,
+  .avoid-break {
+    break-inside: avoid;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+

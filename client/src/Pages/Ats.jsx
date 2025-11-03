@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import api from "../configs/api";
 
 const ATS = () => {
   const [file, setFile] = useState(null);
@@ -24,8 +25,8 @@ const ATS = () => {
     formData.append("jobRole", jobRole);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/ai/analyze-resume",
+      const res = await api.post(
+        "/api/ai/analyze-resume",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
