@@ -38,11 +38,12 @@ const Footer = () => {
 
                             <li><a href="/" className="hover:text-green-600 transition">Home</a></li>
 
-                            <li><a href="/" className="hover:text-green-600 transition">Support</a></li>
+                            <li><a href="/" className="hover:text-green-600 transition">Features</a></li>
 
-                            <li><a href="/" className="hover:text-green-600 transition">Pricing</a></li>
+                            <li><a href="/" className="hover:text-green-600 transition">Testimonial</a></li>
 
-                            <li><a href="/" className="hover:text-green-600 transition">Affiliate</a></li>
+                            <li><a href="/" className="hover:text-green-600 transition">Ats-checker</a></li>
+                            <li><a href="/" className="hover:text-green-600 transition">Templates</a></li>
 
                         </ul>
 
