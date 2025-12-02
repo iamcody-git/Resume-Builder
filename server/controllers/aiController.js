@@ -1,7 +1,7 @@
 import Resume from "../models/resume.js";
 import ai from "../configs/ai.js";
 import { createRequire } from "module";
-import mammoth from "mammoth"; // for .docx support
+import mammoth from "mammoth"; 
 const require = createRequire(import.meta.url);
 const pdfModule = require("pdf-parse");
 const pdf = pdfModule.default || pdfModule;
